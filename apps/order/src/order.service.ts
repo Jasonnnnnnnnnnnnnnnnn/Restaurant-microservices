@@ -22,15 +22,18 @@ export class OrderService {
     console.log(menuItems);
 
     let total = 0;
+    const orderItem2 = [];
+
     for (const item of orderItems) {
       const menuItem = menuItems.find((mi) => mi.id === item.menuItemId);
+      orderItem2.push({...menuItem, quantity: item.quantity});
       if (!menuItem) {
         throw new NotFoundException(`Menu item ${item.menuItemId} not found`);
       }
       total += menuItem.price * item.quantity;
     }
 
-    const order = { id: this.orders.length + 1, items: orderItems, total };
+    const order = { id: this.orders.length + 1, items: orderItem2, total };
     this.orders.push(order);
     return order;
   }
